@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="biblioteca.js"></script>
+
+    <style>
+        body {
+            /* background-color: lightgreen; */
+            background-image: url("biblioteca.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .jumbotron {
+            width: 30%
+        }
+        
+        #pSobre {
+            color: white
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--BARRA DE NAVEGAÇÃO-->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">BIBLIOTECAS DE RUA</a>
+        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto">
+                <!--OPÇÃO SOBRE-->
+                <li id="navSobre" class="nav-item">
+                    <a class="nav-link" href="#" id="btnSobre">Sobre</a>
+                </li>
+                <!--OPÇÃO CATÁLOGO-->
+                <li id="navCatalogo" class="nav-item">
+                    <a class="nav-link" href="#" id="btnCatalogo">Catálogo</a>
+                </li>
+                <!--OPÇÃO <BIBLIOTECAS></BIBLIOTECAS>-->
+                <li id="navBibliotecas" class="nav-item">
+                    <a class="nav-link" href="#" id="btnBibliotecas">Bibliotecas</a>
+                </li>
+                <!--OPÇÃO BACKOFFICE-->
+                <li id="navBackOffice" class="nav-item">
+                    <a class="nav-link" href="#" id="btnBackOffice">Back-Office</a>
+                </li>
+                <!--OPÇÃO INSERIR LIVROS-->
+                <!-- <li id="navInserirLivros" class="nav-item">
+                    <a data-toggle="modal" data-target="#inserirLivrosModal" class="nav-link" href="#">Inserir livros</a>
+                </li> -->
+                <!--OPÇÃO MEUS PEDIDOS-->
+                <li id="navMeusPedidos" class="nav-item">
+                    <a class="nav-link" href="#" id="btnMeusPedidos">Meus pedidos</a>
+                </li>
+                <!--opção registo-->
+                <!-- <li id="navRegister" class="nav-item">
+                    <a data-toggle="modal" data-target="#registoModal" class="nav-link" href="#">Registar utilizadores</a>
+                </li> -->
+            </ul>
+            <ul class="nav navbar-nav navbar-right mr-auto">
+                <!--opção login-->
+                <li id="navLogin" class="nav-item">
+                    <a data-toggle="modal" data-target="#loginModal" class="nav-link" href="#">Login</a>
+                </li>
+                <!--opção onde aparece o nome do utilizador-->
+                <li id="navUser" class="nav-item"></li>
+                <!--opção registo antes de login-->
+                <li id="navUserRegister" class="nav-item">
+                    <a data-toggle="modal" data-target="#registoModal" class="nav-link" href="#">Registar</a>
+                </li>
+                <!--opção logout-->
+                <li id="navLogout" class="nav-item">
+                    <a class="nav-link" href="#" id="btnLogout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <center>
+            <form class="form-inline">
+                <!-- filtro primário-->
+                <div>
+                    <select class="form-control" name="" id="filtrar" style="height:100%; width: 100%">
+                                <option>Todos os livros</option>
+                                <option>Título</option>
+                                <option>Autor</option>
+                                <option>Editora</option>
+                                <option>Género</option>
+                                <option>Data de lançamento</option>
+                                <option>Biblioteca</option>
+                                    </select>
+                </div>
+                <!--filtro secundário -->
+                <div>
+                    <select class="form-control" name="" id="filtrar" style="height:100%; width: 100%">
+                                <option>Segundo filtro</option>
+                                <option>Título</option>
+                                <option>Autor</option>
+                                <option>Editora</option>
+                                <option>Género</option>
+                                <option>Biblioteca</option>
+                                    </select>
+                </div>
+            </form>
+
+            <br><br>
+            <a name="" id="buttonTeste" class="btn btn-primary" href="#" role="button">teste</a>
+
+            <div id="cards" class="col-md-12">
+                <!--CARDS ONDE SÃO APRESENTADOS OS LIVROS EXISTENTES  -->
+
+            </div>
+
+            <!-- <a name="" id="btnEntrar" class="btn btn-primary" href="#" role="button">ENTRAR</a>
+            <a name="" id="btnRegistar" class="btn btn-primary" href="#" role="button">REGISTAR</a> -->
+
+        </center>
+
+        <!--MODAL PARA REGISTO DE UTILIZADORES-->
+        <div class="modal fade" id="registoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registo de utilizador</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmRegister">
+                            <!--TIPO DE UTILIZADOR-->
+                            <div class="form-group" id="formUserType">
+                                <label for="inputUserType">Tipo de utilizador</label>
+                                <select class="form-control" name="" id="inputUserType" style="height:100%; width: 100%">
+                                    <option>-</option>
+                                    <option>Utilizador</option>
+                                    <option>Operador</option>
+                                    <option>Administrador</option>
+                                  </select>
+                            </div>
+
+                            <!--NOME-->
+                            <div class="form-group">
+                                <label for="inputName">Nome</label>
+                                <input required type="text" class="form-control" id="inputName" placeholder="nome" value="jorge">
+                            </div>
+                            <!--MORADA-->
+                            <div class="form-group">
+                                <label for="inputMorada">Morada</label>
+                                <input required type="text" class="form-control" id="inputMorada" placeholder="morada" value="rua 5 de outubro">
+                            </div>
+                            <!--CODIGO POSTAL-->
+                            <div class="form-group">
+                                <label for="inputCod_Postal">Código postal</label>
+                                <input required style="width:20%" type="text" minlength="4" maxlengh="4" class="form-control" id="inputCod_Postal" placeholder="" value="4490-535">
+                            </div>
+                            <!--TELEFONE-->
+                            <div class="form-group">
+                                <label for="inputTelefone">Telefone</label>
+                                <input required type="text" minlength="9" maxlengh="9" class="form-control" id="inputTelefone" placeholder="telefone" value="934449085">
+                            </div>
+                            <!--NIF-->
+                            <div class="form-group">
+                                <label for="inputNif">Nif</label>
+                                <input required type="text" minlength="9" maxlengh="9" class="form-control" id="inputNif" placeholder="nif" value="987654321">
+                            </div>
+                            <!--EMAIL-->
+                            <div class="form-group">
+                                <label for="inputEmail">E-mail</label>
+                                <input required type="email" class="form-control" id="inputEmail" placeholder="email" value="jorge@gmail.com">
+                            </div>
+                            <!--PASSWORD-->
+                            <div class="form-group">
+                                <label for="inputPassword1">Password</label>
+                                <input required minlength="5" type="password" class="form-control" id="inputPassword1" placeholder="password" value="987654">
+                            </div>
+
+                            <!-- CONFIRMAR PASSWORD-->
+                            <div class="form-group">
+                                <label for="inputPassword2">Confirmar password</label>
+                                <input required minlength="5" type="password" class="form-control" id="inputPassword2" placeholder="password" value="987654">
+                            </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <input type="submit" class="btn btn-primary" value="Registar" />
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--MODAL PARA AUTENTICAÇÃO-->
+        <div class="modal fade" data-toggle="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmLogin">
+                            <!--EMAIL-->
+                            <div class="form-group">
+                                <label for="inputLoginEmail">E-mail</label>
+                                <input required type="email" class="form-control" id="inputLoginEmail" placeholder="email">
+                            </div>
+
+                            <!--PASSWORD-->
+                            <div class="form-group">
+                                <label for="inputLoginPassword">Password</label>
+                                <input required minlength="5" type="password" class="form-control" id="inputLoginPassword" placeholder="password">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <input type="submit" class="btn btn-primary" value="Login" />
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--MODAL PARA REGISTO DE LIVROS-->
+        <div class="modal fade" id="inserirLivrosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Inserir livro no sistema</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmInserirLivro">
+                            <!--TITULO-->
+                            <div class="form-group">
+                                <label for="inputTitulo">Título do livro</label>
+                                <input required type="text" class="form-control" maxlengh="50" id="inputTitulo" placeholder="titulo" value="Contos de Grimn">
+                            </div>
+                            <!--AUTORES-->
+                            <div class="form-group">
+                                <label for="inputAutores">Autor</label>
+                                <input required type="text" maxlengh="50" class="form-control" id="inputAutores" placeholder="autor" value="Jacob">
+                            </div>
+                            <!--GÉNERO-->
+                            <div class="form-group">
+                                <label for="inputGenero">Género</label>
+                                <input required type="text" maxlengh="20" class="form-control" id="inputGenero" placeholder="género" value="Literatura infantil">
+                            </div>
+                            <!--EDITORA-->
+                            <div class="form-group">
+                                <label for="inputEditora">Editora</label>
+                                <input required type="text" maxlengh="50" class="form-control" id="inputEditora" placeholder="editora" value="Porto Editora">
+                            </div>
+                            <!--DESCRIÇÃO-->
+                            <div class="form-group">
+                                <label for="inputDescricao">Descrição</label>
+                                <textarea required class="form-control" name="" maxlengh="120" id="inputDescricao" rows="3"></textarea>
+                            </div>
+                            <!--NÚMERO DE PÁGINAS DO LIVRO-->
+                            <div class="form-group">
+                                <label for="inputNumPaginas">Nº de páginas</label>
+                                <input required maxlengh="4" type="text" class="form-control" id="inputNumPaginas" placeholder="nº de páginas" value="160">
+                            </div>
+                            <!--DATA DE LANÇAMENTO  -->
+                            <br>
+                            <div class="form-group">
+                                <label for="inputDataLancamento">Data de lançamento do livro</label>
+                                <input required type="date" name="bday" id="inputDataLancamento" value="2000-05-10">
+                            </div>
+                            <br>
+                            <!--CAPA-->
+                            <div class="form-group">
+                                <label for="inputCapa">Link da imagem da capa</label>
+                                <input required type="text" maxlengh="100" class="form-control" id="inputCapa" placeholder="link" value="https://static.fnac-static.com/multimedia/Images/PT/NR/a5/8e/0e/954021/1507-1/tsp20160418182524/Contos-de-Grimm.jpg">
+                            </div>
+                            <br>
+                            <!-- ESTADO DO LIVRO-->
+                            <div class="form-group">
+                                <label for="inputEstado">Estado de conservação</label>
+
+                                <select required class="form-control" name="" id="inputEstado" style="height:100%">
+                                <option>-</option>
+                                <option>Bom</option>
+                                <option>Aceitável</option>
+                                <option>Fraco</option>
+                              </select>
+
+                            </div>
+                            <!--TAGS-->
+                            <div class="form-group">
+                                <label for="inputTags">Tags (separadas por virgulas)</label>
+                                <input required type="text" class="form-control" maxlengh="10" id="inputTags" placeholder="tag1, tag2, ..." value="infantil">
+                            </div>
+                            <!-- NOME DO DOADOR-->
+                            <div class="form-group">
+                                <label for="inputDoadorName">Nome do doador</label>
+                                <input required maxlengh="50" type="text" class="form-control" id="inputDoadorName" placeholder="nome do doador" value="António">
+                            </div>
+
+
+                    </div>
+                    <!--FIM MODAL class="modal-Body"  -->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <input type="submit" class="btn btn-primary" value="Registar" />
+                    </div>
+                    </form>
+                </div>
+                <!--FIM MODAL class="modal-CONTENT"  -->
+            </div>
+            <!--FIM MODAL class="modal-dialog"  -->
+        </div>
+        <!--FIM MODAL REGISTO  -->
+
+
+        <!--MODAL PARA REQUISITAR LIVROS-->
+        <div class="modal fade" data-toggle="modal" id="requisitarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Requisitar livro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- card -->
+                        <div class="card">
+                            <div class="row ">
+                                <div class="col-md-4">
+                                    <img src="./Contos-de-Grimm.jpg" class="w-100">
+                                </div>
+                                <div class="col-md-8 px-3">
+                                    <div class="card-block px-3">
+                                        <h4 class="card-title">Descrição:</h4>
+                                        <p class="card-text">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                                        <br>
+                                        <h4 class="card-text">Pontuação: </h4>
+                                        <!-- <a href="#" class="btn btn-primary">Read More</a> -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- fim do card -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <!-- <div id="divButton"></div> -->
+                        <input id="inRequisitar" type="submit" class="btn btn-success" value="Requisitar" />
+
+                    </div>
+                    <div>
+                        <div class="col-md-12">
+                            <h4>Comentários:</h4>
+                        </div>
+                        <!-- card comentários-->
+                        <div class="col-md-12">
+                            <p class="card-text">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                            <br>
+                        </div>
+                        <!-- fim do card comentários-->
+
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--FIM DA MODAL PARA REQUISITAR LIVROS-->
+
+        <!--MODAL PARA SELECIONAR SE CONTINUA A PESQUISA OU SE TERMINA A REQUISIÇÃO DE LIVROS-->
+        <div class="modal fade" data-toggle="modal" id="selectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Selecione</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmLogin">
+                            <!--Buttons-->
+                            <div class="form-group">
+                                <input id="continuar" type="submit" class="btn btn-primary" value="Registar e continuar pesquisa" />
+                                <input id="finalizar" type="submit" class="btn btn-primary" value="Finalizar requisição" />
+                            </div>
+
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--Fim da modal selecionar  -->
+
+        <!--MODAL CONSULTAR LISTA DE LIVROS-->
+        <div class="modal fade" data-toggle="modal" id="consultarListaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Lista de livros</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmLogin">
+                            <!--Buttons-->
+                            <div id="divListaLivros" class="form-group">
+                            </div>
+
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--FIM DA MODAL CONSULTAR LISTA DE LIVROS  -->
+
+        <!--MODAL PARA CONFIRMAR RESERVA DE LIVRO-->
+        <div class="modal fade" data-toggle="modal" id="reservaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Finalizar reserva de livro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmLogin">
+                            <!--Buttons-->
+                            <div class="form-group">
+                                <input id="btnFinalizarReserva" type="submit" class="btn btn-primary" value="Finalizar reserva" />
+                            </div>
+
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--Fim da modal selecionar  -->
+
+
+        <!--MODAL TERMINAR REQUISIÇÃO-->
+        <div class="modal fade" data-toggle="modal" id="endRequisicaoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Selecione</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frmLogin">
+                            <!--Buttons-->
+                            <div class="form-group">
+                                <input id="continuar" type="submit" class="btn btn-primary" value="Registar e continuar pesquisa" />
+                                <input id="finalizar" type="submit" class="btn btn-primary" value="Finalizar requisição" />
+                            </div>
+
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--Fim da modal selecionar  -->
+
+    </div>
+    <!--FIM DO CONTAINER  -->
+
+
+    <!-- </div> -->
+
+</body>
+
+</html>
