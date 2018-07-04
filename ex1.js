@@ -205,3 +205,162 @@ btnNavDevolucao.addEventListener("click", function() {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //FIM DEVOLUÇÕES DE LIVROS
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+btnMeusPedidos.addEventListener("click", function() {
+
+    //vai buscar todos as listas inseridas na localstorage
+    lista_Livros = JSON.parse(localStorage.getItem("listasDeLivros"))
+
+    //vai buscar todos as requisições inseridas na localstorage
+    requisicoes = JSON.parse(localStorage.getItem("requisicoes"))
+
+    //vai buscar todos os livros inseridos na localstorage
+    let getLivros = JSON.parse(localStorage.getItem("storageFiles"))
+
+
+    // let tableReq = "";
+    // let tableListaLivros = "";
+    // let tituloLivro = ""
+    // let modalFooter = ""
+
+    cards.innerHTML = ''
+    tableReq = `<!--Tabela que carrega todos os pedidos de um utilizador  -->
+        <div id="tableMeusPedidos">
+             <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Nº</th>
+                    <th scope="col">Data de requisição</th>
+                    <th scope="col">Livro requisitado</th>
+                    <th scope="col">Data limite:</th>
+                    <th scope="col">Devolvido em:</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>`
+
+    //variável que vai receber o id da lista para colocar no id do link "consultar listas"
+    let idLinkLista;
+    let viewButtonDev = ""
+    let idLivroVBD = ""
+
+    for (var i = 0; i < requisicoes.length; i++) {
+
+        for (var k = 0; k < lista_Livros.length; k++) {
+            if (requisicoes[i]._listaId == lista_Livros[k]._id) {
+                idLinkLista = lista_Livros[k]._id
+                console.log("idLinkLista: " + idLinkLista)
+
+                for (var r = 0; r < getLivros.length; r++) {
+                    console.log("getLivros[r]._id: " + getLivros[r]._id)
+
+                    if (lista_Livros[idLinkLista - 1]._livroId == getLivros[r]._id) {
+                        tituloLivro = getLivros[r]._titulo
+                            // idLivroVBD = getLivros[r]._id
+                        idLivroVBD = lista_Livros[idLinkLista - 1]._livroId
+                        console.log("tituloLivro: " + tituloLivro)
+                        console.log("idLivroVBD: " + idLivroVBD)
+                    }
+                }
+                if (requisicoes[i]._estadoReq == "Activa") {
+                    viewButtonDev = '<input id="' + idLivroVBD + '" type="submit" class="btn btn-success btn-xs btnDevolver" value="Devolver" />'
+                }
+            }
+
+
+
+        }
+
+
+        tableReq += `<tr class="table-light">
+                    <th scope="row">` + requisicoes[i]._id + `</th>
+                    <td>` + requisicoes[i]._data_req + `</td>
+                    <td>` + tituloLivro + `</td>
+                    <td>` + requisicoes[i]._data_lim + `</td>
+                    <td>-</td>
+                    <td>` + viewButtonDev + `</td>
+                </tr>`
+
+    }
+
+    tableReq += `</tbody>
+                     </table></div>`
+
+    //Insere botão para fazer devolução de livros
+    modalFooter = `<div">
+                        <button type="button" id="btnEfetuarDev" class="btn btn-success btn-xs btnEfetuarDev" data-dismiss="modal">Efetuar devolução</button>
+                        </div>`
+
+    cards.innerHTML = tableReq
+    divFooterDevolverLivro.innerHTML = modalFooter
+
+    //let btnDevolver = document.getElementsByClassName("btnDevolver")
+    let btnEfetuarDev = document.getElementsByClassName("btnEfetuarDev")
+
+    //DEVOLVER LIVRO
+    //ação quando se pretende devolver livros de uma determinada requisição
+    for (let i = 0; i < btnDevolver.length; i++) {
+
+        btnDevolver[i].addEventListener("click", function() {
+            //vai buscar o id de cada botão correspondente ao id do livro
+            //cardAtribute = btnDevolver[i].getAttribute("id")
+            console.log("id do botão devolver: " + cardAtribute)
+
+            //abre a modal devolverLivro
+            $('#devolverLivro').modal('show')
+
+
+
+            //vai buscar todos os livros inseridos na localstorage
+            let getLivros = JSON.parse(localStorage.getItem("storageFiles"))
+            let strTitulo = ""
+            for (var i = 0; i < getLivros.length; i++) {
+                if (cardAtribute = getLivros[i]._id) {
+                    strTitulo = getLivros[i]._titulo
+                }
+
+            }
+
+            divDevolverLivro.innerHTML = strTitulo;
+
+            // for (var k = 0; k < getLivros.length; k++) {
+            //     if (cardAtribute == getLivros[k]._id) {
+            //         getLivros[k]._disponibilidade = true
+            //     }
+
+            // }
+            // localStorage.setItem("storageFiles", JSON.stringify(getLivros));
+            //cardAtribute = "";
+        })
+
+    } //fim ciclo for
+
+    //FINALIZAR DEVOLUÇÃO
+    //ação quando se pretende devolver livros de uma determinada requisição
+    for (let i = 0; i < btnEfetuarDev.length; i++) {
+
+        btnEfetuarDev[i].addEventListener("click", function() {
+            //vai buscar o id de cada botão correspondente ao id do livro
+            //cardAtribute = btnDevolver[i].getAttribute("id")
+            console.log("id do botão btnEfetuarDev: " + cardAtribute)
+
+            for (var k = 0; k < getLivros.length; k++) {
+                if (cardAtribute == getLivros[k]._id) {
+                    getLivros[k]._disponibilidade = true;
+                }
+
+            }
+            localStorage.setItem("storageFiles", JSON.stringify(getLivros));
+            cardAtribute = "";
+        })
+
+    } //fim ciclo for
+
+
+    //esvazia os arrays
+    lista_Livros = []
+    requisicoes = []
+    tituloLivro = ""
+
+})
