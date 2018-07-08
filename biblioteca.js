@@ -281,51 +281,6 @@ class Biblioteca {
 //Fim da classe Biblioteca
 ///////////////////////////
 
-//XXXXXXXXXXXXXXXXXXXXXXXXX
-//classe Date
-//XXXXXXXXXXXXXXXXXXXXXXXXX
-
-// class Date {
-//     //construtor de bibliotecas
-//     constructor(date) {
-//         this.date = date
-//         this._dia = Date.getDia()
-//         this._mes = Date.getMes()
-//         this._ano = Date.getAno()
-
-//     }
-
-
-
-//     //função que obtem o dia a partir de uma data
-//     static getDia() {
-
-//     }
-
-//     //função que obtem o mês a partir de uma data
-//     static getMes() {
-
-//     }
-
-//     //função que obtem o ano a partir de uma data
-//     static getAno() {
-
-//     }
-// }
-
-// let date = new Date()
-// let date_dia = date.getDate()
-// let date_mes = date.getMonth() + 1
-// let date_ano = date.getFullYear()
-
-// console.log("date: " + date)
-// console.log("date_dia: " + date_dia)
-// console.log("date_mes: " + date_mes)
-// console.log("date_ano: " + date_ano)
-
-///////////////////////////
-//Fim da classe Data
-///////////////////////////
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXX
@@ -336,13 +291,15 @@ let requisicoesId = 0;
 
 class Requisicoes {
     //construtor de Editoras
-    constructor(userId, listaId, estadoReq) { //vai buscar às outras classes
+    constructor(userId, listaId, estadoReq, dataEntrega, multa) { //vai buscar às outras classes
             this._id = Requisicoes.getLastId() + 1
             this.userId = userId
             this.listaId = listaId
             this.estadoReq = estadoReq
             this._data_req = Requisicoes.getDataActual();
             this._data_lim = Requisicoes.getDataLimite();
+            this.dataEntrega = dataEntrega
+            this.multa = multa;
         }
         //ooooooooooooooooooooooooooooooooooooooooooooooooooooooo
         //criar gets e sets das propriedades do construtor
@@ -370,6 +327,22 @@ class Requisicoes {
     }
     set estadoReq(newEstadoReq) {
         this._estadoReq = newEstadoReq;
+    }
+
+    //propriedade dataEntrega
+    get dataEntrega() {
+        return this._dataEntrega;
+    }
+    set dataEntrega(newDataEntrega) {
+        this._dataEntrega = newDataEntrega;
+    }
+
+    //propriedade multa
+    get multa() {
+        return this._multa;
+    }
+    set multa(newMulta) {
+        this._multa = newMulta;
     }
 
     //função que obtem o último id de um array e retorna ao construtor
@@ -410,6 +383,24 @@ class Requisicoes {
         return data_lim;
 
     }
+
+    // static getMulta(dataEntrega) {
+    //     let multa;
+    //     let diference = 0;
+    //     let dataEntrega = dataEntrega;
+    //     let date = new Date();
+
+    //     let date_dia = date.getDate()
+    //     let date_mes = date.getMonth() + 1
+    //     let date_ano = date.getFullYear()
+
+    //     let dataActual = date_dia + "/" + date_mes + "/" + date_ano;
+
+    //     diference = dataActual - dataEntrega;
+
+    //     return diference;
+
+    // }
 
 }
 
@@ -739,6 +730,36 @@ class Comentarios {
 //Fim da classe Comentários
 ///////////////////////////
 
+
+//XXXXXXXXXXXXXXXXXXXXXXXXXXX
+//classe Pontuacao
+//XXXXXXXXXXXXXXXXXXXXXXXXXXX
+let pontuacao = [];
+let pontuacaoId = 0;
+
+class Pontuacao {
+    //construtor de listas de livros
+    constructor(userId, livroId, pontos) {
+        this._id = Pontuacao.getLastId() + 1
+        this.userId = userId
+        this.livroId = livroId
+        this.pontos = pontos
+    }
+
+
+    //função que obtem o último id de um array e retorna ao construtor
+    static getLastId() {
+        let lastId = 0;
+        if (pontuacao.length > 0) {
+            lastId = pontuacao[pontuacao.length - 1]._id;
+        }
+        return lastId;
+    }
+}
+
+///////////////////////////
+//Fim da classe Pontuacao
+///////////////////////////
 
 
 window.onload = function() {
@@ -1311,6 +1332,16 @@ window.onload = function() {
         }
         console.log("returnStorage: " + returnStorage)
 
+        //variáveis para apresentação dos pontos
+        let storagePontos;
+        let apresentaPontos = 0;
+        let starPontos = "";
+        let pontos1 = 0;
+        let pontos2 = 0;
+        let pontos3 = 0;
+        let pontos4 = 0;
+        let pontos5 = 0;
+
         //percorre o array returnStorage e imprime a informação nos cards
         for (var i = 0; i < returnStorage.length; i++) {
             //define o tipo de button requisição que irá ser inserido
@@ -1334,6 +1365,50 @@ window.onload = function() {
                 sliceDescricao = returnStorage[i]._descricao
             }
 
+
+            //inserção das estrelas correspondentes aos pontos de cada livro
+
+            if (localStorage.getItem("pontos") != null) {
+                storagePontos = JSON.parse(localStorage.getItem("pontos"));
+
+                for (var d = 0; d < storagePontos.length; d++) {
+                    if (returnStorage[i]._id == storagePontos[d].livroId) {
+                        console.log("igual");
+                        //contar os pontos de 1 a 5
+                        if (storagePontos[d].pontos == 1) {
+                            pontos1 += 1;
+                        } else if (storagePontos[d].pontos == 2) {
+                            pontos2 += 2;
+                        } else if (storagePontos[d].pontos == 3) {
+                            pontos3 += 3;
+                        } else if (storagePontos[d].pontos == 4) {
+                            pontos4 += 4;
+                        } else if (storagePontos[d].pontos == 5) {
+                            pontos5 += 5;
+                        }
+                    }
+                }
+                apresentaPontos = (pontos1 + pontos2 + pontos3 + pontos4 + pontos5) / 2;
+
+                // console.log("apresenta pontos: " + apresentaPontos)
+
+                if (apresentaPontos == 1) {
+                    apresentaPontos = 1;
+                } else if (apresentaPontos > 1 && apresentaPontos <= 2) {
+                    apresentaPontos = 2;
+                } else if (apresentaPontos > 2 && apresentaPontos <= 3) {
+                    apresentaPontos = 3;
+                } else if (apresentaPontos > 3 && apresentaPontos <= 4) {
+                    apresentaPontos = 4;
+                } else if (apresentaPontos > 4 && apresentaPontos <= 5) {
+                    apresentaPontos = 5;
+                }
+            }
+
+            for (var p = 0; p < apresentaPontos; p++) {
+                starPontos += '<span class = "glyphicon glyphicon-star"></span>';
+            }
+
             //criação de cards
             if (returnStorage[i] != "") {
 
@@ -1350,6 +1425,7 @@ window.onload = function() {
                         <!--Card content-->
                         <div class="card-body">
                             <!--Title-->
+                            <h5>` + starPontos + `</h5>
                             <h5 style="text-align:left" class="card-title"><b>Título:</b> ` + returnStorage[i]._titulo + `</h5>
                             <h5 style="text-align:left" class="card-title"><b>Autor:</b> ` + returnStorage[i]._autor + `</h5>
                             <!--Text-->
@@ -1365,7 +1441,22 @@ window.onload = function() {
                 cards.innerHTML = `<p>Não existem livros para mostrar!<p>`
             }
 
+            //limpa todas as variáveis de cálculo das estrelas
+            apresentaPontos = 0;
+            starPontos = "";
+            pontos1 = 0;
+            pontos2 = 0;
+            pontos3 = 0;
+            pontos4 = 0;
+            pontos5 = 0;
         }
+
+        // console.log("pontos1: " + pontos1)
+        // console.log("pontos2: " + pontos2)
+        // console.log("pontos3: " + pontos3)
+        // console.log("pontos4: " + pontos4)
+        // console.log("pontos5: " + pontos5)
+
         let btnRequisitar = document.getElementsByClassName("requisitar")
             // Para cada botão, adicionar um listener para escutar pelo evento clique
         for (let i = 0; i < btnRequisitar.length; i++) {
@@ -1399,7 +1490,7 @@ window.onload = function() {
     let divDevolverLivro = document.getElementById("divDevolverLivro")
     let divFooterDevolverLivro = document.getElementById("divFooterDevolverLivro")
     let linkConsultarLista = document.getElementsByClassName("linkConsultarLista")
-    let btnDevolver = document.getElementsByClassName("btnDevolver")
+        //let btnDevolver = document.getElementsByClassName("btnDevolver")
         //let cards = document.getElementById("cards")
 
 
@@ -1410,6 +1501,7 @@ window.onload = function() {
     let modalFooter = ""
 
     btnMeusPedidos.addEventListener("click", function() {
+        let getLivros;
 
         //vai buscar todos as listas inseridas na localstorage
         lista_Livros = JSON.parse(localStorage.getItem("listasDeLivros"))
@@ -1418,13 +1510,8 @@ window.onload = function() {
         requisicoes = JSON.parse(localStorage.getItem("requisicoes"))
 
         //vai buscar todos os livros inseridos na localstorage
-        let getLivros = JSON.parse(localStorage.getItem("storageFiles"))
+        getLivros = JSON.parse(localStorage.getItem("storageFiles"))
 
-
-        // let tableReq = "";
-        // let tableListaLivros = "";
-        // let tituloLivro = ""
-        // let modalFooter = ""
 
         cards.innerHTML = ''
         tableReq = `<!--Tabela que carrega todos os pedidos de um utilizador  -->
@@ -1437,6 +1524,7 @@ window.onload = function() {
                     <th scope="col">Livro requisitado</th>
                     <th scope="col">Data limite:</th>
                     <th scope="col">Devolvido em:</th>
+                    <th scope="col">Multa:</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -1480,7 +1568,8 @@ window.onload = function() {
                     <td>` + requisicoes[i]._data_req + `</td>
                     <td>` + tituloLivro + `</td>
                     <td>` + requisicoes[i]._data_lim + `</td>
-                    <td>-</td>
+                    <td>` + requisicoes[i]._dataEntrega + `</td>
+                    <td>` + requisicoes[i]._multa + ` €</td>
                     <td>` + viewButtonDev + `</td>
                 </tr>`
 
@@ -1497,7 +1586,7 @@ window.onload = function() {
         cards.innerHTML = tableReq
         divFooterDevolverLivro.innerHTML = modalFooter
 
-        //let btnDevolver = document.getElementsByClassName("btnDevolver")
+        let btnDevolver = document.getElementsByClassName("btnDevolver")
         let btnEfetuarDev = document.getElementsByClassName("btnEfetuarDev")
 
         //DEVOLVER LIVRO
@@ -1506,7 +1595,8 @@ window.onload = function() {
 
             btnDevolver[i].addEventListener("click", function() {
                 //vai buscar o id de cada botão correspondente ao id do livro
-                cardAtribute = 2;
+                cardAtribute = btnDevolver[i].getAttribute("id")
+                    //cardAtribute = "2";
                 console.log("id do botão devolver: " + cardAtribute)
 
                 //abre a modal devolverLivro
@@ -1517,23 +1607,15 @@ window.onload = function() {
                 //vai buscar todos os livros inseridos na localstorage
                 let getLivros = JSON.parse(localStorage.getItem("storageFiles"))
                 let strTitulo = ""
-                for (var i = 0; i < getLivros.length; i++) {
-                    if (cardAtribute = getLivros[i]._id) {
-                        strTitulo = getLivros[i]._titulo
+                for (var j = 0; j < getLivros.length; j++) {
+                    if (cardAtribute = getLivros[j]._id) {
+                        strTitulo = getLivros[j]._titulo
                     }
 
                 }
 
                 divDevolverLivro.innerHTML = strTitulo;
 
-                // for (var k = 0; k < getLivros.length; k++) {
-                //     if (cardAtribute == getLivros[k]._id) {
-                //         getLivros[k]._disponibilidade = true
-                //     }
-
-                // }
-                // localStorage.setItem("storageFiles", JSON.stringify(getLivros));
-                //cardAtribute = "";
             })
 
         } //fim ciclo for
@@ -1543,31 +1625,77 @@ window.onload = function() {
         for (let i = 0; i < btnEfetuarDev.length; i++) {
 
             btnEfetuarDev[i].addEventListener("click", function() {
+
+                //vai buscar todos as listas inseridas na localstorage
+                lista_Livros = JSON.parse(localStorage.getItem("listasDeLivros"))
+
+                //vai buscar todos as requisições inseridas na localstorage
+                requisicoes = JSON.parse(localStorage.getItem("requisicoes"))
+
+
                 //vai buscar o id de cada botão correspondente ao id do livro
                 cardAtribute = btnEfetuarDev[i].getAttribute("id")
                 console.log("id do botão btnEfetuarDev: " + cardAtribute)
 
                 //altera a disponibilidade do livro
-                for (var k = 0; k < getLivros.length; k++) {
+                for (let k = 0; k < getLivros.length; k++) {
                     if (cardAtribute == getLivros[k]._id) {
                         getLivros[k]._disponibilidade = true;
                     }
 
                 }
 
+                //console.log("lista_Livros[0]._livroId" + lista_Livros[0]._livroId)
+                //console.log("estadoReq: " + requisicoes[0]._estadoReq)
+                let proviListaId;
+
                 //altera o estado da requisição
                 for (var t = 0; t < lista_Livros.length; t++) {
+
+                    if (cardAtribute == lista_Livros[t]._livroId) {
+                        proviListaId = lista_Livros[t]._id;
+                        console.log("provilistaid: " + proviListaId)
+                    } else {
+                        console.log("Nada para mostrar nas listas")
+                    }
                     for (var r = 0; r < requisicoes.length; r++) {
-                        if (cardAtribute == lista_Livros[t]._livroId && requisicoes[r]._listaId == lista_Livros[t]._id) {
+                        if (requisicoes[r]._listaId == proviListaId) {
                             requisicoes[r]._estadoReq = "arquivada";
+
+
+                            let date = new Date();
+
+                            let date_dia = date.getDate()
+                            let date_mes = date.getMonth() + 1
+                            let date_ano = date.getFullYear()
+
+                            let dateEntrega = date_dia + "/" + date_mes + "/" + date_ano;
+                            let dateEntrega2 = date_mes + "/" + date_dia + "/" + date_ano; //data para calcular o valor da multa
+
+                            requisicoes[r]._dataEntrega = dateEntrega;
+                            requisicoes[r]._multa = getMulta(dateEntrega2);
+
+                            console.log("data actual: " + dateEntrega)
+                            console.log("estadoReq: " + requisicoes[r]._estadoReq)
+                            console.log("multa: " + getMulta(dateEntrega2))
+                        } else {
+                            console.log("Nada para mostrar nas reqs ")
                         }
 
                     }
-
                 }
 
+
+                localStorage.setItem("requisicoes", JSON.stringify(requisicoes));
                 localStorage.setItem("storageFiles", JSON.stringify(getLivros));
                 cardAtribute = "";
+
+                //fecha a modal devolverLivro
+                $('#devolverLivro').modal('hide')
+
+                //reinicia a tabela
+                cards.innerHTML = ""
+                showPedidos();
             })
 
         } //fim ciclo for
@@ -1581,7 +1709,113 @@ window.onload = function() {
     })
 
 
+    function showPedidos() {
+        //vai buscar todos as listas inseridas na localstorage
+        lista_Livros = JSON.parse(localStorage.getItem("listasDeLivros"))
 
+        //vai buscar todos as requisições inseridas na localstorage
+        requisicoes = JSON.parse(localStorage.getItem("requisicoes"))
+
+        //vai buscar todos os livros inseridos na localstorage
+        getLivros = JSON.parse(localStorage.getItem("storageFiles"))
+
+
+        cards.innerHTML = ''
+        tableReq = `<!--Tabela que carrega todos os pedidos de um utilizador  -->
+        <div id="tableMeusPedidos">
+             <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Nº</th>
+                    <th scope="col">Data de requisição</th>
+                    <th scope="col">Livro requisitado</th>
+                    <th scope="col">Data limite:</th>
+                    <th scope="col">Devolvido em:</th>
+                    <th scope="col">Multa:</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>`
+
+        //variável que vai receber o id da lista para colocar no id do link "consultar listas"
+        let idLinkLista;
+        let viewButtonDev = ""
+        let idLivroVBD = ""
+
+        for (var i = 0; i < requisicoes.length; i++) {
+
+            for (var k = 0; k < lista_Livros.length; k++) {
+                if (requisicoes[i]._listaId == lista_Livros[k]._id) {
+                    idLinkLista = lista_Livros[k]._id
+                    console.log("idLinkLista: " + idLinkLista)
+
+                    for (var r = 0; r < getLivros.length; r++) {
+                        console.log("getLivros[r]._id: " + getLivros[r]._id)
+
+                        if (lista_Livros[idLinkLista - 1]._livroId == getLivros[r]._id) {
+                            tituloLivro = getLivros[r]._titulo
+                                // idLivroVBD = getLivros[r]._id
+                            idLivroVBD = lista_Livros[idLinkLista - 1]._livroId
+                            console.log("tituloLivro: " + tituloLivro)
+                            console.log("idLivroVBD: " + idLivroVBD)
+                        }
+                    }
+                    if (requisicoes[i]._estadoReq == "Activa") {
+                        viewButtonDev = '<input id="' + idLivroVBD + '" type="submit" class="btn btn-success btn-xs btnDevolver" value="Devolver" />'
+                    }
+                }
+
+
+
+            }
+
+
+            tableReq += `<tr class="table-light">
+                    <th scope="row">` + requisicoes[i]._id + `</th>
+                    <td>` + requisicoes[i]._data_req + `</td>
+                    <td>` + tituloLivro + `</td>
+                    <td>` + requisicoes[i]._data_lim + `</td>
+                    <td>` + requisicoes[i]._dataEntrega + `</td>
+                    <td>` + requisicoes[i]._multa + ` €</td>
+                    <td>` + viewButtonDev + `</td>
+                </tr>`
+
+        }
+
+        tableReq += `</tbody>
+                     </table></div>`
+
+        //Insere botão para fazer devolução de livros
+        modalFooter = `<div">
+                        <button type="button" id="` + idLivroVBD + `" class="btn btn-success btn-xs btnEfetuarDev" data-dismiss="modal">Efetuar devolução</button>
+                        </div>`
+
+        cards.innerHTML = tableReq
+        divFooterDevolverLivro.innerHTML = modalFooter
+    }
+
+    //função que calcula o valor da multa. Necessário passar um parâmetro data (MM,DD,YY)
+    function getMulta(dataLim) {
+        let multa;
+        let date = new Date();
+
+        let date_dia = date.getDate()
+        let date_mes = date.getMonth() + 1
+        let date_ano = date.getFullYear()
+
+        let dataActual = date_mes + "/" + date_dia + "/" + date_ano;
+
+        var date1 = new Date("7/1/2018");
+        //var date1 = new Date(dataLim);
+        var date2 = new Date(dataActual);
+        var tempoDiferenca = Math.abs(date2.getTime() - date1.getTime());
+        var diasDiferenca = Math.ceil(tempoDiferenca / (1000 * 3600 * 24));
+
+        multa = diasDiferenca * 1; //valor em euros (um euro de multa por cada dia)
+
+        return multa;
+
+    }
 
     btnCatalogo.addEventListener("click", function() {
 
@@ -1800,6 +2034,8 @@ window.onload = function() {
         //cria a requisição com base nos dados anteriores
         var element;
         let estadoReq;
+        let multa = 0;
+        let dataEntrega;
 
         //verifica se existe o campo requisições na localstorage
         if (localStorage.getItem("requisicoes") === null) {
@@ -1812,10 +2048,12 @@ window.onload = function() {
                 console.log("element: " + element)
             }
 
-            estadoReq = "Activa"
+            estadoReq = "Activa";
+            dataEntrega = "-";
+            multa = 0;
 
             //chama o construtor de requisições
-            var requisicao = new Requisicoes(userId, element, estadoReq)
+            var requisicao = new Requisicoes(userId, element, estadoReq, dataEntrega, multa)
             requisicoes.push(requisicao)
 
 
@@ -1827,7 +2065,7 @@ window.onload = function() {
             requisicoes = []
             IdLivro = ""
             estadoReq = ""
-
+            dataEntrega = "";
 
         } else {
             alert("entrou no else do requisitar")
@@ -1843,10 +2081,12 @@ window.onload = function() {
                 console.log("element: " + element)
             }
 
-            estadoReq = "Activa"
+            estadoReq = "Activa";
+            dataEntrega = "-";
+            multa = 0;
 
             //chama o construtor de requisições
-            var requisicao = new Requisicoes(userId, element, estadoReq)
+            var requisicao = new Requisicoes(userId, element, estadoReq, dataEntrega, multa)
             requisicoes.push(requisicao)
 
             //carrega o novo array lista_Livros na localstorage
@@ -1857,24 +2097,14 @@ window.onload = function() {
             IdLivro = ""
             requisicoes = []
             estadoReq = ""
-
+            dataEntrega = "";
 
         }
 
 
         $('#endRequisicaoModal').modal('hide')
 
-        //chama o construtor de requisições
-        // var requisicao = new Requisicoes(userId, cardAtribute)
-        // requisicoes.push(requisicao)
 
-        // for (var i = 0; i < requisicoes.length; i++) {
-        //     console.log(requisicoes[i].userId)
-        //     console.log(requisicoes[i].livroId)
-        //     console.log(requisicoes[i]._data_req)
-        //     console.log(requisicoes[i]._data_lim)
-
-        // }
         //Fecha a modal requisitarModal
         $('#selectModal').modal('hide')
 
@@ -1945,6 +2175,97 @@ window.onload = function() {
     //FIM requisitar livros
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    //Inserir pontos
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    let btnAtribuirPontos = document.getElementById("btnAtribuirPontos");
+    let btnInserirPontos = document.getElementById("btnInserirPontos");
+    let pontuacaoModal = document.getElementById("pontuacaoModal");
+    let radioBtnPontos = document.getElementById("radioBtnPontos");
+    let star = document.getElementsByClassName("star");
+
+    //NOTA: O id do livro mantém-se desde cima
+    //for (var i = 0; i < btnAtribuirPontos.length; i++) {
+    btnAtribuirPontos.addEventListener("click", function() {
+        //if (userExists == true) {
+        $('#pontuacaoModal').modal('show')
+            // } else {
+            //     alert("Ação não permitida. Efetue login: ")
+            // }
+    })
+
+    //}
+
+    btnInserirPontos.addEventListener("click", function() {
+
+        let pontos;
+        let newPontuacao;
+
+        if (localStorage.getItem("pontos") === null) {
+            //let provisoria = JSON.parse(localStorage.getItem("storageFiles", ))
+            pontos = $('input:radio[name=star]:checked').val();
+            console.log("pontos: " + pontos)
+            newPontuacao = new Pontuacao(userId, cardAtribute, pontos);
+            pontuacao.push(newPontuacao);
+            localStorage.setItem("pontos", JSON.stringify(pontuacao))
+        } else {
+            //vai buscar todos as pontuações inseridas na localstorage
+            pontuacao = JSON.parse(localStorage.getItem("pontos"));
+            let validar = false;
+            console.log("pontuacao: " + pontuacao)
+            console.log("cardatribute: " + cardAtribute)
+
+            for (var i = 0; i < pontuacao.length; i++) {
+
+                if (userId == pontuacao[i].userId && cardAtribute == pontuacao[i].livroId) {
+                    alert("já atribuiu uma pontuação a este livro.")
+                } else {
+                    validar = true;
+                }
+            }
+
+            if (validar == true) {
+                pontos = $('input:radio[name=star]:checked').val();
+                console.log("userId: " + userId);
+                console.log("pontuacao.userId: ") + pontuacao.userId;
+                console.log("pontos: " + pontos)
+                newPontuacao = new Pontuacao(userId, cardAtribute, pontos);
+                pontuacao.push(newPontuacao);
+                localStorage.setItem("pontos", JSON.stringify(pontuacao))
+            }
+
+
+
+
+        }
+
+        //limpa os radio buttons
+        for (var i = 0; i < star.length; i++) {
+            if (star[i].checked) {
+                star[i].checked = false;
+            }
+
+        }
+
+        $('#pontuacaoModal').modal('hide')
+
+
+    })
+
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    //Fim inserir pontos
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    //Inserir comentários
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+    let comentarios = document.getElementById("btnInserirComentario");
+
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    //Fim inserir comentários
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     btnLogout.addEventListener("click", function() {
         // cards.innerHTML = ''

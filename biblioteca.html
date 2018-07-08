@@ -28,6 +28,29 @@
         #pSobre {
             color: white
         }
+        
+        .star {
+            visibility: hidden;
+            font-size: 45px;
+            cursor: pointer;
+        }
+        
+        .star:before {
+            content: "\2605";
+            position: absolute;
+            visibility: visible;
+            color: gold;
+        }
+        
+        .star:checked:before {
+            content: "\2606";
+            position: absolute;
+            color: gold;
+        }
+        
+        .glyphicon-star {
+            color: gold;
+        }
     </style>
 </head>
 
@@ -364,6 +387,9 @@
                                         <p class="card-text">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                                         <br>
                                         <h4 class="card-text">Pontuação: </h4>
+                                        <input id="btnAtribuirPontos" type="submit" class="btn btn-success btn-xs pontos" value="Atribuir pontuação" />
+                                        <br>
+                                        <br>
                                         <!-- <a href="#" class="btn btn-primary">Read More</a> -->
                                     </div>
                                 </div>
@@ -380,6 +406,8 @@
                     </div>
                     <div>
                         <div class="col-md-12">
+                            <input id="btnInserirComentario" type="submit" class="btn btn-success btn-xs btnDevolver" value="Inserir comentário." />
+                            <br>
                             <h4>Comentários:</h4>
                         </div>
                         <!-- card comentários-->
@@ -396,6 +424,55 @@
             </div>
         </div>
         <!--FIM DA MODAL PARA REQUISITAR LIVROS-->
+
+        <!--MODAL PONTUAÇÃO-->
+        <div class="modal fade" data-toggle="modal" id="pontuacaoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Pontuar livro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!--Buttons-->
+                        <div class="form-group">
+                            <div col-md-8>
+                                <center>
+                                    <form id="radioBtnPontos">
+                                        <label class="checkbox-inline">
+                                    <input class="star star-5" id="star-5" type="radio" value="1" name="star"/> 1
+                                    </label>
+                                        <label class="checkbox-inline">
+                                    <input class="star star-5" id="star-5" type="radio" value="2" name="star"/> 2
+                                    </label>
+                                        <label class="checkbox-inline">
+                                    <input class="star star-5" id="star-5" type="radio" value="3" name="star"/> 3
+                                    </label>
+                                        <label class="checkbox-inline">
+                                    <input class="star star-5" id="star-5" type="radio" value="4" name="star"/> 4
+                                    </label>
+                                        <label class="checkbox-inline">
+                                    <input class="star star-5" id="star-5" type="radio" value="5" name="star"/> 5
+                                    </label>
+                                        <br><br><br><br>
+                                    </form>
+                                </center>
+                            </div>
+                            <div col-md-4>
+                                <center><input id="btnInserirPontos" type="submit" class="btn btn-success btn-xs" value="Inserir" /></center>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--Fim da modal PONTUAÇÃO  -->
 
         <!--MODAL PARA SELECIONAR SE CONTINUA A PESQUISA OU SE TERMINA A REQUISIÇÃO DE LIVROS-->
         <div class="modal fade" data-toggle="modal" id="selectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
