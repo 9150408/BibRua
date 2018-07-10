@@ -709,10 +709,35 @@ let comentariosId = 0;
 
 class Comentarios {
     //construtor de listas de livros
-    constructor(userId, livroId) {
+    constructor(userId, livroId, comentario) {
         this._id = Comentarios.getLastId() + 1
         this.userId = userId
         this.livroId = livroId
+        this.comentario = comentario
+    }
+
+    //propriedade userId
+    get userId() {
+        return this._userId;
+    }
+    set userId(newUserId) {
+        this._userId = newUserId;
+    }
+
+    //propriedade livroId
+    get livroId() {
+        return this._livroId;
+    }
+    set livroId(newLivroId) {
+        this._livroId = newLivroId;
+    }
+
+    //propriedade comentario
+    get comentario() {
+        return this._comentario;
+    }
+    set comentario(newComentario) {
+        this._comentario = newComentario;
     }
 
 
@@ -744,6 +769,30 @@ class Pontuacao {
         this.userId = userId
         this.livroId = livroId
         this.pontos = pontos
+    }
+
+    //propriedade userId
+    get userId() {
+        return this._userId;
+    }
+    set userId(newUserId) {
+        this._userId = newUserId;
+    }
+
+    //propriedade livroId
+    get livroId() {
+        return this._livroId;
+    }
+    set livroId(newLivroId) {
+        this._livroId = newLivroId;
+    }
+
+    //propriedade pontos
+    get pontos() {
+        return this._pontos;
+    }
+    set pontos(newPontos) {
+        this._pontos = newPontos;
     }
 
 
@@ -1341,6 +1390,7 @@ window.onload = function() {
         let pontos3 = 0;
         let pontos4 = 0;
         let pontos5 = 0;
+        let countPontos = 0;
 
         //percorre o array returnStorage e imprime a informação nos cards
         for (var i = 0; i < returnStorage.length; i++) {
@@ -1372,23 +1422,33 @@ window.onload = function() {
                 storagePontos = JSON.parse(localStorage.getItem("pontos"));
 
                 for (var d = 0; d < storagePontos.length; d++) {
-                    if (returnStorage[i]._id == storagePontos[d].livroId) {
+                    if (returnStorage[i]._id == storagePontos[d]._livroId) {
                         console.log("igual");
                         //contar os pontos de 1 a 5
-                        if (storagePontos[d].pontos == 1) {
+                        if (storagePontos[d]._pontos == 1) {
                             pontos1 += 1;
-                        } else if (storagePontos[d].pontos == 2) {
+                            countPontos++;
+                        } else if (storagePontos[d]._pontos == 2) {
                             pontos2 += 2;
-                        } else if (storagePontos[d].pontos == 3) {
+                            countPontos++;
+                        } else if (storagePontos[d]._pontos == 3) {
                             pontos3 += 3;
-                        } else if (storagePontos[d].pontos == 4) {
+                            countPontos++;
+                        } else if (storagePontos[d]._pontos == 4) {
                             pontos4 += 4;
-                        } else if (storagePontos[d].pontos == 5) {
+                            countPontos++;
+                        } else if (storagePontos[d]._pontos == 5) {
                             pontos5 += 5;
+                            countPontos++;
                         }
                     }
                 }
-                apresentaPontos = (pontos1 + pontos2 + pontos3 + pontos4 + pontos5) / 2;
+                if (countPontos == 1) {
+                    apresentaPontos = (pontos1 + pontos2 + pontos3 + pontos4 + pontos5)
+                } else {
+                    apresentaPontos = (pontos1 + pontos2 + pontos3 + pontos4 + pontos5) / countPontos;
+                }
+
 
                 // console.log("apresenta pontos: " + apresentaPontos)
 
@@ -1449,6 +1509,7 @@ window.onload = function() {
             pontos3 = 0;
             pontos4 = 0;
             pontos5 = 0;
+            countPontos = 0;
         }
 
         // console.log("pontos1: " + pontos1)
@@ -1473,6 +1534,81 @@ window.onload = function() {
                 //abre a modal requisitarModal
                 $('#requisitarModal').modal('show')
 
+
+                //inserção das estrelas correspondentes aos pontos de cada livro
+
+                if (localStorage.getItem("pontos") != null) {
+                    storagePontos = JSON.parse(localStorage.getItem("pontos"));
+
+                    for (var d = 0; d < storagePontos.length; d++) {
+                        if (returnStorage[i]._id == storagePontos[d]._livroId) {
+                            console.log("igual");
+                            //contar os pontos de 1 a 5
+                            if (storagePontos[d]._pontos == 1) {
+                                pontos1 += 1;
+                                countPontos++;
+                            } else if (storagePontos[d]._pontos == 2) {
+                                pontos2 += 2;
+                                countPontos++;
+                            } else if (storagePontos[d]._pontos == 3) {
+                                pontos3 += 3;
+                                countPontos++;
+                            } else if (storagePontos[d]._pontos == 4) {
+                                pontos4 += 4;
+                                countPontos++;
+                            } else if (storagePontos[d]._pontos == 5) {
+                                pontos5 += 5;
+                                countPontos++;
+                            }
+                        }
+                    }
+                    if (countPontos == 0) {
+                        apresentaPontos = 0;
+                    } else if (countPontos == 1) {
+                        apresentaPontos = (pontos1 + pontos2 + pontos3 + pontos4 + pontos5);
+                    } else {
+                        apresentaPontos = (pontos1 + pontos2 + pontos3 + pontos4 + pontos5) / countPontos;
+                    }
+
+
+                    // console.log("apresenta pontos: " + apresentaPontos)
+
+                    if (apresentaPontos == 1) {
+                        apresentaPontos = 1;
+                    } else if (apresentaPontos > 1 && apresentaPontos <= 2) {
+                        apresentaPontos = 2;
+                    } else if (apresentaPontos > 2 && apresentaPontos <= 3) {
+                        apresentaPontos = 3;
+                    } else if (apresentaPontos > 3 && apresentaPontos <= 4) {
+                        apresentaPontos = 4;
+                    } else if (apresentaPontos > 4 && apresentaPontos <= 5) {
+                        apresentaPontos = 5;
+                    }
+                }
+
+                let headerPontos = document.getElementById("headerPontos");
+
+                if (apresentaPontos == 0) {
+                    headerPontos.innerHTML = "";
+                } else {
+                    for (var p = 0; p < apresentaPontos; p++) {
+                        starPontos += '<span class = "glyphicon glyphicon-star"></span>';
+                    }
+                    for (var w = 0; w < apresentaPontos; w++) {
+                        headerPontos.innerHTML = starPontos;
+                    }
+                }
+
+
+                //limpa todas as variáveis de cálculo das estrelas
+                apresentaPontos = 0;
+                starPontos = "";
+                pontos1 = 0;
+                pontos2 = 0;
+                pontos3 = 0;
+                pontos4 = 0;
+                pontos5 = 0;
+                countPontos = 0;
             })
         }
     }
@@ -1842,6 +1978,10 @@ window.onload = function() {
     let continuar = document.getElementById("continuar")
     let reservaModal = document.getElementById("reservaModal")
     let btnFinalizarReserva = document.getElementById("btnFinalizarReserva")
+    let mostrarComentario = document.getElementById("mostrarComentario")
+    let todosComentarios = document.getElementById("todosComentarios")
+    let todosComentariosModal = document.getElementById("todosComentariosModal")
+    let paragrafoTodosComentarios = document.getElementById("paragrafoTodosComentarios")
     let cardAtribute = ""
 
     // Para cada botão, adicionar um listener para escutar pelo evento clique
@@ -1879,7 +2019,38 @@ window.onload = function() {
             //abre a modal requisitarModal
             $('#requisitarModal').modal('show')
 
+
+            //Apresentar comentários no card requisitar
+            //vai buscar todos os comentarios inseridos na localstorage
+            comentarios = JSON.parse(localStorage.getItem("comentarios"));
+
+            let showComment = "";
+            for (var z = 0; z < comentarios.length; z++) {
+                console.log("cardAtribute: " + cardAtribute)
+                console.log("comentarios._livroId: " + comentarios[z]._livroId)
+                if (cardAtribute == comentarios[z]._livroId) {
+                    showComment = comentarios[z]._comentario;
+                }
+
+            }
+            showComment += `<a href="#" class="read-more" id="todosComentarios"><span><small> ...ver todos</small></span> <i class="i fa fa-arrow-circle-right"></i></a>`
+
+            console.log("showComment: " + showComment)
+            mostrarComentario.innerHTML = showComment;
+            $("#todosComentarios").on("click", function() {
+                $('#todosComentariosModal').modal('show')
+
+                let agregaComentarios = "";
+                for (var u = 0; u < comentarios.length; u++) {
+                    if (cardAtribute == comentarios[u]._livroId) {
+                        agregaComentarios += comentarios[u]._comentario + `<br>`;
+                    }
+                }
+
+                paragrafoTodosComentarios.innerHTML = agregaComentarios;
+            })
         })
+        comentarios = []; //limpa o array
     }
 
     console.log("userExistsTeste1: " + userExists)
@@ -2187,11 +2358,12 @@ window.onload = function() {
     //NOTA: O id do livro mantém-se desde cima
     //for (var i = 0; i < btnAtribuirPontos.length; i++) {
     btnAtribuirPontos.addEventListener("click", function() {
-        //if (userExists == true) {
-        $('#pontuacaoModal').modal('show')
-            // } else {
-            //     alert("Ação não permitida. Efetue login: ")
-            // }
+        if (userExists == true) {
+            $('#pontuacaoModal').modal('show')
+        } else {
+            alert("Ação não permitida. Efetue login: ")
+            $('#requisitarModal').modal('hide')
+        }
     })
 
     //}
@@ -2200,43 +2372,79 @@ window.onload = function() {
 
         let pontos;
         let newPontuacao;
+        let validar = false;
 
         if (localStorage.getItem("pontos") === null) {
             //let provisoria = JSON.parse(localStorage.getItem("storageFiles", ))
             pontos = $('input:radio[name=star]:checked').val();
             console.log("pontos: " + pontos)
-            newPontuacao = new Pontuacao(userId, cardAtribute, pontos);
-            pontuacao.push(newPontuacao);
-            localStorage.setItem("pontos", JSON.stringify(pontuacao))
+
+            if (pontos == null) {
+                alert("escolher opção");
+            } else {
+                newPontuacao = new Pontuacao(userId, cardAtribute, pontos);
+                pontuacao.push(newPontuacao);
+                localStorage.setItem("pontos", JSON.stringify(pontuacao))
+
+                $('#pontuacaoModal').modal('hide')
+                $('#requisitarModal').modal('hide')
+                renderCards();
+                pontuacao = []
+            }
+
         } else {
+
             //vai buscar todos as pontuações inseridas na localstorage
             pontuacao = JSON.parse(localStorage.getItem("pontos"));
-            let validar = false;
+            validar = false;
             console.log("pontuacao: " + pontuacao)
             console.log("cardatribute: " + cardAtribute)
 
             for (var i = 0; i < pontuacao.length; i++) {
 
-                if (userId == pontuacao[i].userId && cardAtribute == pontuacao[i].livroId) {
+                if (userId == pontuacao[i]._userId && cardAtribute == pontuacao[i]._livroId) {
                     alert("já atribuiu uma pontuação a este livro.")
+                    validar = false;
+
+                    //limpa os radio buttons
+                    for (var i = 0; i < star.length; i++) {
+                        if (star[i].checked) {
+                            star[i].checked = false;
+                        }
+
+                    }
+
+                    $('#pontuacaoModal').modal('hide')
+                    $('#requisitarModal').modal('hide')
+                    renderCards();
+                    pontuacao = []
                 } else {
                     validar = true;
                 }
             }
 
             if (validar == true) {
+
                 pontos = $('input:radio[name=star]:checked').val();
-                console.log("userId: " + userId);
-                console.log("pontuacao.userId: ") + pontuacao.userId;
-                console.log("pontos: " + pontos)
-                newPontuacao = new Pontuacao(userId, cardAtribute, pontos);
-                pontuacao.push(newPontuacao);
-                localStorage.setItem("pontos", JSON.stringify(pontuacao))
+
+                if (pontos == null) {
+                    alert("escolher opção");
+                } else {
+                    console.log("userId: " + userId);
+                    console.log("pontuacao.userId: ") + pontuacao.userId;
+                    console.log("pontos: " + pontos)
+                    newPontuacao = new Pontuacao(userId, cardAtribute, pontos);
+                    pontuacao.push(newPontuacao);
+                    localStorage.setItem("pontos", JSON.stringify(pontuacao))
+                    validar = false;
+
+                    $('#pontuacaoModal').modal('hide')
+                    $('#requisitarModal').modal('hide')
+                    renderCards();
+                    pontuacao = []
+                }
+
             }
-
-
-
-
         }
 
         //limpa os radio buttons
@@ -2246,10 +2454,6 @@ window.onload = function() {
             }
 
         }
-
-        $('#pontuacaoModal').modal('hide')
-
-
     })
 
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -2261,7 +2465,100 @@ window.onload = function() {
     //Inserir comentários
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    let comentarios = document.getElementById("btnInserirComentario");
+    let btnAcederComentario = document.getElementById("btnAcederComentario");
+    let btnInserirComentario = document.getElementById("btnInserirComentario");
+    let textBoxComment = document.getElementById("textBoxComment");
+
+    btnAcederComentario.addEventListener("click", function(event) {
+        if (userExists == true) {
+            $('#comentariosModal').modal('show')
+        } else {
+            alert("Ação não permitida. Efetue login: ")
+            $('#requisitarModal').modal('hide')
+        }
+        $("#textBoxComment").focus();
+        event.preventDefault()
+
+    })
+
+    btnInserirComentario.addEventListener("click", function() {
+        let coment;
+        let newComentario;
+        let validarComentario = false;
+
+        if (localStorage.getItem("comentarios") === null) {
+            //let provisoria = JSON.parse(localStorage.getItem("storageFiles", ))
+            coment = textBoxComment.value;
+            // console.log("coment: " + coment)
+
+            if (coment == "") {
+                alert("Insira o seu comentário!");
+            } else {
+                newComentario = new Comentarios(userId, cardAtribute, coment);
+                comentarios.push(newComentario);
+                localStorage.setItem("comentarios", JSON.stringify(comentarios))
+
+                //limpa a textBox
+                //$("#textBoxComment").val("");
+                textBoxComment.value = "";
+
+                $('#comentariosModal').modal('hide')
+                $('#requisitarModal').modal('hide')
+                renderCards();
+                comentarios = []
+            }
+
+
+        } else {
+            //vai buscar todos os comentarios inseridos na localstorage
+            comentarios = JSON.parse(localStorage.getItem("comentarios"));
+            validarComentario = false;
+            // console.log("pontuacao: " + comentarios)
+            // console.log("cardatribute: " + cardAtribute)
+
+            for (var i = 0; i < comentarios.length; i++) {
+
+                if (userId == comentarios[i]._userId && cardAtribute == comentarios[i]._livroId) {
+                    alert("já atribuiu uma comentário a este livro.")
+                    validarComentario = false;
+
+                    //limpa a textBox
+                    //$("#textBoxComment").val("");
+                    textBoxComment.value = "";
+
+                    $('#comentariosModal').modal('hide')
+                    $('#requisitarModal').modal('hide')
+                    renderCards();
+                } else {
+                    validarComentario = true;
+                }
+            }
+
+            if (validarComentario == true) {
+                coment = textBoxComment.value;
+                // console.log("userId: " + userId);
+                // console.log("pontuacao.userId: ") + pontuacao.userId;
+                // console.log("pontos: " + pontos)
+
+                if (coment == "") {
+                    alert("Insira o seu comentário!");
+                } else {
+                    newComentario = new Comentarios(userId, cardAtribute, coment);
+                    comentarios.push(newComentario);
+                    localStorage.setItem("comentarios", JSON.stringify(comentarios))
+                    validarComentario = false;
+                    //limpa a textBox
+                    //$("#textBoxComment").val = "";
+                    textBoxComment.value = "";
+                    $('#comentariosModal').modal('hide')
+                    $('#requisitarModal').modal('hide')
+                    renderCards();
+                    comentarios = []
+                }
+            }
+        }
+
+    })
 
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     //Fim inserir comentários

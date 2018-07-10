@@ -386,7 +386,7 @@
                                         <h4 class="card-title">Descrição:</h4>
                                         <p class="card-text">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                                         <br>
-                                        <h4 class="card-text">Pontuação: </h4>
+                                        <h4 class="card-text" id="headerPontos"></h4>
                                         <input id="btnAtribuirPontos" type="submit" class="btn btn-success btn-xs pontos" value="Atribuir pontuação" />
                                         <br>
                                         <br>
@@ -406,13 +406,13 @@
                     </div>
                     <div>
                         <div class="col-md-12">
-                            <input id="btnInserirComentario" type="submit" class="btn btn-success btn-xs btnDevolver" value="Inserir comentário." />
+                            <input id="btnAcederComentario" type="submit" class="btn btn-success btn-xs btnDevolver" value="Inserir comentário." />
                             <br>
                             <h4>Comentários:</h4>
                         </div>
                         <!-- card comentários-->
                         <div class="col-md-12">
-                            <p class="card-text">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                            <p class="card-text" id="mostrarComentario"></p>
                             <br>
                         </div>
                         <!-- fim do card comentários-->
@@ -473,6 +473,78 @@
             </div>
         </div>
         <!--Fim da modal PONTUAÇÃO  -->
+
+        <!--MODAL COMENTÀRIOS-->
+        <div class="modal fade" data-toggle="modal" id="comentariosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Comentar livro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!--Buttons-->
+                        <div class="form-group">
+                            <div col-md-8>
+                                <center>
+                                    <form action="/action_page.php">
+                                        <div class="form-group">
+                                            <label for="comment">Inserir comentário:</label>
+                                            <textarea class="form-control" rows="5" id="textBoxComment" autofocus="autofocus"></textarea>
+                                        </div>
+                                        <br>
+                                    </form>
+                                </center>
+                            </div>
+                            <div col-md-4>
+                                <center><input id="btnInserirComentario" type="submit" class="btn btn-success btn-xs" value="Inserir" /></center>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--Fim da modal COMENTÀRIOS  -->
+
+        <!--MODAL TODOS OS COMENTÀRIOS-->
+        <div class="modal fade" data-toggle="modal" id="todosComentariosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Todos os comentários</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!--Buttons-->
+                        <div class="form-group">
+                            <div col-md-8>
+                                <center>
+                                    <form action="/action_page.php">
+                                        <div class="form-group">
+                                            <p id="paragrafoTodosComentarios"></p>
+                                        </div>
+                                        <br>
+                                    </form>
+                                </center>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--Fim da modal TODOS OS COMENTÀRIOS  -->
 
         <!--MODAL PARA SELECIONAR SE CONTINUA A PESQUISA OU SE TERMINA A REQUISIÇÃO DE LIVROS-->
         <div class="modal fade" data-toggle="modal" id="selectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
